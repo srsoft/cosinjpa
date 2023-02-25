@@ -4,7 +4,20 @@ spring:
     driver-class-name: "org.mariadb.jdbc.Driver"
     username: "example"
     password: "example"
-#  jpa:
-#    database-platform: org.hibernate.dialect.MariaDB103Dialect
-#    hibernate:
-#      ddl-auto: create-drop
+  jpa:
+    properties:
+      hibernate:
+        format_sql: "true"
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: "DEBUG"
+        type:
+          descriptor:
+            sql:
+              BasicBinder: "TRACE"
+    com:
+      stady: "DEBUG"
+

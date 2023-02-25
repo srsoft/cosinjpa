@@ -12,8 +12,8 @@
 
 <main class="form-signin w-100 m-auto">
   <form th:action="@{/account/login}" method="post">
-    <img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <a th:href="@{/}"><img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"></a>
+    <h1 class="h3 mb-3 fw-normal">로그인</h1>
     <div th:if="${param.error}" class="alert alert-danger" role="alert">
       Invalid username and password.
     </div>
@@ -35,7 +35,8 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+    <a th:href="@{/account/register}">회원가입</a>
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
   </form>
 </main>
