@@ -16,6 +16,8 @@ public class Board extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long divisionId;
+
     @NotEmpty
     @Size(min=2, max=30, message = "제목은 2자이상 30자 이하입니다.")
     private String title;

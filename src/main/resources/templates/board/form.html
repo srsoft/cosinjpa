@@ -3,39 +3,48 @@
 <head th:replace="fragments/common :: head('게시판')"></head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')"></nav>
+<nav th:replace="fragments/common :: menu('board')"></nav>
 
-<main role="main" class="container">
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="fragments/common :: leftMenu"></nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
-    <h2>게시판</h2>
-
-    <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
-        <input type="hidden" th:field="*{id}">
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" placeholder="제목" id="title" th:field="*{title}"
-                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
-                Please provide a valid title.
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2">게시판</h1>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="content">내용</label>
-            <textarea class="form-control" placeholder="내용" id="content" style="height: 100px" th:field="*{content}"
-                      th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
-                Please provide a valid content.
-            </div>
-        </div>
-        <div class="text-right">
-            <a th:href="@{/board/list}" type="button" class="btn btn-dark">취소</a>
-            <button type="button" class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')" th:onclick="|deleteBoard(*{id})|">삭제</button>
-            <button type="submit" class="btn btn-primary">확인</button>
-        </div>
-    </form>
+
+            <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" placeholder="제목" id="title" th:field="*{title}"
+                           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                        Please provide a valid title.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea class="form-control" placeholder="내용" id="content" style="height: 100px" th:field="*{content}"
+                              th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                        Please provide a valid content.
+                    </div>
+                </div>
+                <div class="text-right">
+                    <a th:href="@{/board/list}" type="button" class="btn btn-dark">취소</a>
+                    <button type="button" class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')" th:onclick="|deleteBoard(*{id})|">삭제</button>
+                    <button type="submit" class="btn btn-primary">확인</button>
+                </div>
+            </form>
 
 
-</main><!-- /.container -->
+        </main><!-- /.container -->
+
+
+    </div>
+</div>
 
 <footer th:replace="fragments/common :: footer"></footer>
 

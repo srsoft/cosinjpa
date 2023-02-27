@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: head('Developement')"></head>
+<body>
+
+<nav th:replace="fragments/common :: menu('dev')"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="fragments/common :: leftMenu"></nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2">Developement</h1>
+            </div>
+
+
+        </main><!-- /.container -->
+
+
+    </div>
+</div>
+
+<footer th:replace="fragments/common :: footer"></footer>
+
+</body>
+</html>
