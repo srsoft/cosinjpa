@@ -2,17 +2,16 @@ package com.stady.cosinjpa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
 @Data
-public class User {
+public class User extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

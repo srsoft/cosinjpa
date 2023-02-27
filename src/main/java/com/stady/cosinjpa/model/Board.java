@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Data
-public class Board {
+public class Board extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,7 @@ public class Board {
     private String title;
 
     @NotEmpty
-    @Size(min=2, max=30, message = "내용은 2자이상 30자 이하입니다.")
+    @Size(min=2, max=300, message = "내용은 2자이상 300자 이하입니다.")
     private String content;
 
     @ManyToOne
