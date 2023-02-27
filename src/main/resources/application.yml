@@ -21,3 +21,9 @@ logging:
     com:
       stady: "DEBUG"
 
+mybatis:
+  type-aliases-package: "com.stady.cosinjpa.model"
+  configuration:
+    map-underscore-to-camel-case: "true"
+  mapper-locations: "mapper/*.xml"
+
