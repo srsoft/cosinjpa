@@ -25,9 +25,6 @@ public class UserController {
 
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(required = false, defaultValue = "") String searchText) {
-        //Page<User> users = userRepository.findAll(pageable);
-        //users.getTotalElements(); // 갯수 가져오기
-
         Page<User> users = userRepository.findByUsernameContainingOrderByIdDesc(searchText, pageable);
 
         int startPage = Math.max(1, users.getPageable().getPageNumber() - 4);

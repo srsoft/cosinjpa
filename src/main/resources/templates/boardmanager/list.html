@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: head('게시판 메니저')"></head>
+<body>
+
+<nav th:replace="fragments/common :: menu('boardmanager')"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="fragments/common :: leftMenu('boardmanager')"></nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2">게시판 메니저</h1>
+            </div>
+
+            <div>총 건수 : <span th:text="${boardmanagers.totalElements}"></span></div>
+
+            <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/boardmanager/list}">
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-light mb-3">검색</button>
+                </div>
+            </form>
+
+            <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="boardmanager : ${boardmanagers}">
+                    <td th:text="${boardmanager.id}">id</td>
+                    <td><a th:text="${boardmanager.title}" th:href="@{/boardmanager/form(id=${boardmanager.id})}">title</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${1 == boardmanagers.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/boardmanager/list(page=${boardmanagers.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:classappend="${i == boardmanagers.pageable.pageNumber + 1} ? 'disabled'" th:each="i: ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link" href="#" th:href="@{/boardmanager/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${boardmanagers.totalPages == boardmanagers.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/boardmanager/list(page=${boardmanagers.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+
+        </main>
+    </div>
+</div>
+
+<footer th:replace="fragments/common :: footer"></footer>
+
+</body>
+</html>

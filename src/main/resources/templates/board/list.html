@@ -26,14 +26,16 @@
 
             <table class="table">
                 <colgroup>
-                    <col width="25%">
-                    <col width="25%">
-                    <col width="25%">
-                    <col width="25%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
                 </colgroup>
                 <thead>
                 <tr>
                     <th scope="col">번호</th>
+                    <th scope="col">분류</th>
                     <th scope="col">제목</th>
                     <th scope="col">작성자</th>
                     <th scope="col">작성일</th>
@@ -42,6 +44,7 @@
                 <tbody>
                 <tr th:each="board : ${boards}">
                     <td th:text="${board.id}">id</td>
+                    <td th:text="${board.managerId}">manager_id</td>
                     <td><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}">title</a></td>
                     <td th:text="${board.user.username}">username</td>
                     <td th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">createTime</td>
