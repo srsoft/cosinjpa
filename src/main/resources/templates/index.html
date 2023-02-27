@@ -1,18 +1,21 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/common :: head('홈')"></head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/common :: head('Developement')"></head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>
+<nav th:replace="fragments/common :: menu('home')"></nav>
 
-<main role="main" class="container">
+<div class="container-fluid">
+  <div class="row">
+    <nav th:replace="fragments/common :: leftMenu('home')"></nav>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+      </div>
 
-  <div class="starter-template">
-    <h1>Bootstrap boot tutorial</h1>
-    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+    </main>
   </div>
-
-</main><!-- /.container -->
+</div>
 
 <footer th:replace="fragments/common :: footer"></footer>
 

@@ -1,64 +1,79 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/common :: head('게시판')"></head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')"></nav>
+<nav th:replace="fragments/common :: menu('board')"></nav>
 
-<main role="main" class="container">
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="fragments/common :: leftMenu('board')"></nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2">게시판</h1>
+            </div>
 
-    <h2>게시판</h2>
-    <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
+            <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
 
-    <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/board/list}">
-        <div class="col-auto">
-            <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-light mb-3">검색</button>
-        </div>
-    </form>
+            <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-light mb-3">검색</button>
+                </div>
+            </form>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="board : ${boards}">
-            <td th:text="${board.id}">id</td>
-            <td><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}">title</a></td>
-            <td th:text="${board.user.username}">username</td>
-        </tr>
-        </tbody>
-    </table>
-
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
-            </li>
-            <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="i: ${#numbers.sequence(startPage, endPage)}">
-                <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
-            </li>
-        </ul>
-    </nav>
+            <table class="table">
+                <colgroup>
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.id}">id</td>
+                    <td><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}">title</a></td>
+                    <td th:text="${board.user.username}">username</td>
+                    <td th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">createTime</td>
+                </tr>
+                </tbody>
+            </table>
 
 
-    <div class="text-right">
-        <a th:href="@{/board/form}" type="button" class="btn btn-primary">쓰기</a>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="i: ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <div class="text-right">
+                <a th:href="@{/board/form}" type="button" class="btn btn-primary">쓰기</a>
+            </div>
+
+        </main>
     </div>
-
-</main><!-- /.container -->
+</div>
 
 <footer th:replace="fragments/common :: footer"></footer>
-    
+
 </body>
 </html>

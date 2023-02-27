@@ -4,6 +4,7 @@ import com.stady.cosinjpa.model.Board;
 import com.stady.cosinjpa.repository.BoardRepository;
 import com.stady.cosinjpa.service.BoardService;
 import com.stady.cosinjpa.validator.BoardValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
 
     @Autowired
@@ -36,13 +38,14 @@ public class BoardController {
         //Page<Board> boards = boardRepository.findAll(pageable);
         //boards.getTotalElements(); // 갯수 가져오기
 
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+        Page<Board> boards = boardRepository.findByTitleContainingOrContentContainingOrderByIdDesc(searchText, searchText, pageable);
 
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
+        log.debug("model: {}", model);
         return "board/list";
     }
 

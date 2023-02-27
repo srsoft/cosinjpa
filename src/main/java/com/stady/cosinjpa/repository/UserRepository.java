@@ -1,6 +1,9 @@
 package com.stady.cosinjpa.repository;
 
+import com.stady.cosinjpa.model.Board;
 import com.stady.cosinjpa.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from User u where u.username like %?1%", nativeQuery = true)
     List<User> findByUsernameNativeQuery(String username);
+
+    Page<User> findByUsernameContainingOrderByIdDesc(String username, Pageable pageable);
 
 }
