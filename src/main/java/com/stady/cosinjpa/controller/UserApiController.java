@@ -32,6 +32,10 @@ public class UserApiController {
         } else if ("nativeQuery".equals(method)) {
             users = repository.findByUsernameNativeQuery(text);
         } else if ("querydsl".equals(method)) {
+
+//            User user = new User();
+//            Predicate predicate = user.getUsername().contains(text).eq("hello");
+
             QUser user = QUser.user;
             Predicate predicate = user.username.contains(text)
                     .or(user.username.eq("hello"));
