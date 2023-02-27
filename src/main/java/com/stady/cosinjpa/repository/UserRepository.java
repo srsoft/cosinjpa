@@ -8,7 +8,8 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User>, CustomizedUserRepository {
+//public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User>, CustomizedUserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     //@EntityGraph(attributePaths = { "boards" })
     //@Override
