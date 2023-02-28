@@ -11,15 +11,15 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPredicateExecutor<Board> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByTitle(String title);
     List<Board> findByTitleOrContent(String title, String Content);
 
     Page<Board> findByTitleContainingOrContentContaining(String title, String Content, Pageable pageable);
     Page<Board> findByTitleContainingOrContentContainingOrderByIdDesc(String title, String Content, Pageable pageable);
-//    Page<Board> findByManagerIdOrderByIdDesc(String boardManager, String title, String Content, Pageable pageable);
+    Page<Board> findByManagerIdAndTitleContainingOrderByIdDesc(Long managerId, String title, Pageable pageable);
 
-    @Query("select u from Board u where u.boardManager.id = :manager")
-    Page<Board> findByManagerIdOrderByIdDesc(@Param("manager") String boardManager, Pageable pageable);
+//    @Query("select u from Board u where u.boardManager.id = :manager")
+//    Page<Board> findByManagerIdOrderByIdDesc(@Param("manager") String boardManager, Pageable pageable);
 }

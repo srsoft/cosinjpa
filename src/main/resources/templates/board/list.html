@@ -12,18 +12,19 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                 <h1 class="h2">게시판</h1>
             </div>
-
-
-
             <ul class="nav nav-tabs mt-3 mb-3">
+                <li class="nav-item">
+                    <a th:href="@{./list}" class="nav-link" th:classappend="${#strings.toString(param.managerId) == null || #strings.toString(param.managerId) == ''} ? 'active' : ''" aria-current="page">전체</a>
+                </li>
                 <li th:each="boardManager : ${boardsManager}" class="nav-item">
-                    <a th:text="${boardManager.title}" th:href="@{./list(boardManager=${boardManager.id})}" class="nav-link" th:classappend="${#strings.toString(param.boardManager) == #strings.toString(boardManager.id)} ? 'active' : ''" aria-current="page">title</a>
+                    <a th:text="${boardManager.title}" th:href="@{./list(managerId=${boardManager.id})}" class="nav-link" th:classappend="${#strings.toString(param.managerId) == #strings.toString(boardManager.id)} ? 'active' : ''" aria-current="page">title</a>
                 </li>
             </ul>
 
             <div class="d-flex justify-content-between">
                 <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
                 <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+                    <input type="hidden" name="managerId" th:value="${param.managerId}">
                     <div class="col-auto">
                         <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
                     </div>
@@ -53,7 +54,7 @@
                 <tbody>
                 <tr th:each="board : ${boards}">
                     <td th:text="${board.id}">id</td>
-                    <td th:text="${board.boardManager.title}">manager_id</td>
+                    <td th:text="${boardsManager[board.managerId - 1].title}">manager_id</td>
                     <td><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}">title</a></td>
                     <td th:text="${board.user.username}">username</td>
                     <td th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">createTime</td>
@@ -65,20 +66,20 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
+                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1}, managerId=${param.managerId}, searchText=${param.searchText})}">Previous</a>
                     </li>
                     <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="i: ${#numbers.sequence(startPage, endPage)}">
-                        <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+                        <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1}, managerId=${param.managerId}, searchText=${param.searchText})}" th:text="${i}">1</a>
                     </li>
                     <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1}, managerId=${param.managerId}, searchText=${param.searchText})}">Next</a>
                     </li>
                 </ul>
             </nav>
 
 
             <div class="text-right">
-                <a th:href="@{/board/form}" type="button" class="btn btn-primary">쓰기</a>
+                <a th:if="${#strings.toString(param.managerId) != null && #strings.toString(param.managerId) != ''}" th:href="@{/board/form}" type="button" class="btn btn-primary">쓰기</a>
             </div>
 
         </main>

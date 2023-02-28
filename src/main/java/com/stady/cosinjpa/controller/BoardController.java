@@ -2,7 +2,7 @@ package com.stady.cosinjpa.controller;
 
 import com.stady.cosinjpa.model.Board;
 import com.stady.cosinjpa.model.BoardManager;
-import com.stady.cosinjpa.model.QBoard;
+//import com.stady.cosinjpa.model.QBoard;
 import com.stady.cosinjpa.repository.BoardManagerRepository;
 import com.stady.cosinjpa.repository.BoardRepository;
 import com.stady.cosinjpa.service.BoardService;
@@ -42,15 +42,15 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping("/list")
-    public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(required = false, defaultValue = "") String boardManager, @RequestParam(required = false, defaultValue = "") String searchText) {
+    public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(required = false, defaultValue = "0") Long managerId, @RequestParam(required = false, defaultValue = "") String searchText) {
         //Page<Board> boards = boardRepository.findAll(pageable);
         //boards.getTotalElements(); // 갯수 가져오기
 
         Page<Board> boards = null;
-        if (StringUtils.isEmpty(boardManager)) {
+        if (managerId == 0) {
             boards = boardRepository.findByTitleContainingOrContentContainingOrderByIdDesc(searchText, searchText, pageable);
         } else {
-            boards = boardRepository.findByManagerIdOrderByIdDesc(boardManager, pageable);
+            boards = boardRepository.findByManagerIdAndTitleContainingOrderByIdDesc(managerId, searchText, pageable);
         }
 
         List<BoardManager> boardManagers = boardManagerRepository.findAll();

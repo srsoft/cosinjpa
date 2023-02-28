@@ -16,7 +16,7 @@ public class Board extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private Long managerId;
+    private Long managerId;
 
     @NotEmpty
     @Size(min=2, max=30, message = "제목은 2자이상 30자 이하입니다.")
@@ -31,8 +31,8 @@ public class Board extends BaseTime {
     @JsonIgnore
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id", referencedColumnName = "id")
-    @JsonIgnore
-    private BoardManager boardManager;
+//    @ManyToOne
+//    @JoinColumn(name = "manager_id", referencedColumnName = "id")
+//    @JsonIgnore
+//    private BoardManager boardManager;
 }
