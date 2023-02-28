@@ -1,5 +1,7 @@
 package com.stady.cosinjpa.repository;
 
+import com.querydsl.jpa.impl.JPAQuery;
+import com.stady.cosinjpa.model.QUser;
 import com.stady.cosinjpa.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,14 +21,13 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository {
 
     @Override
     public List<User> findByUsernameCustom(String username) {
-//        QUser qUser = QUser.user;
-//        JPAQuery<?> query = new JPAQuery<Void>(em);
-//        List<User> users = query.select(qUser)
-//                .from(qUser)
-//                .where(qUser.username.contains(username))
-//                .fetch();
-//        return users;
-        return null;
+        QUser qUser = QUser.user;
+        JPAQuery<?> query = new JPAQuery<Void>(em);
+        List<User> users = query.select(qUser)
+                .from(qUser)
+                .where(qUser.username.contains(username))
+                .fetch();
+        return users;
     }
 
     @Override

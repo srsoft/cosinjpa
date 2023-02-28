@@ -1,6 +1,9 @@
 package com.stady.cosinjpa.controller;
 
 import com.stady.cosinjpa.model.Board;
+import com.stady.cosinjpa.model.BoardManager;
+import com.stady.cosinjpa.model.QBoard;
+import com.stady.cosinjpa.repository.BoardManagerRepository;
 import com.stady.cosinjpa.repository.BoardRepository;
 import com.stady.cosinjpa.service.BoardService;
 import com.stady.cosinjpa.validator.BoardValidator;
@@ -15,9 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Controller
 @RequestMapping("/board")
@@ -28,23 +33,34 @@ public class BoardController {
     private BoardRepository boardRepository;
 
     @Autowired
+    private BoardManagerRepository boardManagerRepository;
+
+    @Autowired
     private BoardValidator boardValidator;
 
     @Autowired
     private BoardService boardService;
 
     @GetMapping("/list")
-    public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(required = false, defaultValue = "") String searchText) {
+    public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(required = false, defaultValue = "") String boardManager, @RequestParam(required = false, defaultValue = "") String searchText) {
         //Page<Board> boards = boardRepository.findAll(pageable);
         //boards.getTotalElements(); // 갯수 가져오기
 
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContainingOrderByIdDesc(searchText, searchText, pageable);
+        Page<Board> boards = null;
+        if (StringUtils.isEmpty(boardManager)) {
+            boards = boardRepository.findByTitleContainingOrContentContainingOrderByIdDesc(searchText, searchText, pageable);
+        } else {
+            boards = boardRepository.findByManagerIdOrderByIdDesc(boardManager, pageable);
+        }
+
+        List<BoardManager> boardManagers = boardManagerRepository.findAll();
 
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
+        model.addAttribute("boardsManager", boardManagers);
         log.debug("model: {}", model);
         return "board/list";
     }

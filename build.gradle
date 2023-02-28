@@ -1,14 +1,14 @@
-//buildscript {
-//	ext {
-//		queryDslVersion = "5.0.0"
-//	}
-//}
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
 
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-//	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.stady'
@@ -34,8 +34,8 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 	implementation 'org.springframework.security:spring-security-test'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-//	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-//	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
@@ -48,24 +48,24 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-////querydsl 추가 시작
-//def querydslDir = "$buildDir/generated/querydsl"
-//
-//querydsl {
-//	jpa = true
-//	querydslSourcesDir = querydslDir
-//}
-//sourceSets {
-//	main.java.srcDir querydslDir
-//}
-//compileQuerydsl{
-//	options.annotationProcessorPath = configurations.querydsl
-//}
-//configurations {
-//	compileOnly {
-//		extendsFrom annotationProcessor
-//	}
-//	querydsl.extendsFrom compileClasspath
-//}
-////querydsl 추가 끝
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+//querydsl 추가 끝
 

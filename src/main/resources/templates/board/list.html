@@ -13,16 +13,25 @@
                 <h1 class="h2">게시판</h1>
             </div>
 
-            <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
 
-            <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/board/list}">
-                <div class="col-auto">
-                    <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-light mb-3">검색</button>
-                </div>
-            </form>
+
+            <ul class="nav nav-tabs mt-3 mb-3">
+                <li th:each="boardManager : ${boardsManager}" class="nav-item">
+                    <a th:text="${boardManager.title}" th:href="@{./list(boardManager=${boardManager.id})}" class="nav-link" th:classappend="${#strings.toString(param.boardManager) == #strings.toString(boardManager.id)} ? 'active' : ''" aria-current="page">title</a>
+                </li>
+            </ul>
+
+            <div class="d-flex justify-content-between">
+                <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
+                <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-light mb-3">검색</button>
+                    </div>
+                </form>
+            </div>
 
             <table class="table">
                 <colgroup>
@@ -44,7 +53,7 @@
                 <tbody>
                 <tr th:each="board : ${boards}">
                     <td th:text="${board.id}">id</td>
-                    <td th:text="${board.managerId}">manager_id</td>
+                    <td th:text="${board.boardManager.title}">manager_id</td>
                     <td><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}">title</a></td>
                     <td th:text="${board.user.username}">username</td>
                     <td th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">createTime</td>

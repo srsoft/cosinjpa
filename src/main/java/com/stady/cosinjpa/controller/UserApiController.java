@@ -1,9 +1,13 @@
 package com.stady.cosinjpa.controller;
 
 //import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.Predicate;
 import com.stady.cosinjpa.model.Board;
 //import com.stady.cosinjpa.model.QUser;
+import com.stady.cosinjpa.model.QBoard;
+import com.stady.cosinjpa.model.QUser;
 import com.stady.cosinjpa.model.User;
+import com.stady.cosinjpa.repository.BoardRepository;
 import com.stady.cosinjpa.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,9 @@ public class UserApiController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
     @GetMapping("/users")
     Iterable<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
         Iterable<User> users = null;
@@ -30,19 +37,31 @@ public class UserApiController {
         } else if ("nativeQuery".equals(method)) {
             users = repository.findByUsernameNativeQuery(text);
         } else if ("querydsl".equals(method)) {
-//            QUser user = QUser.user;
-//            Predicate predicate = user.username.contains(text)
-//                    .or(user.username.eq("hello"));
-//            users = repository.findAll(predicate);
+            QUser user = QUser.user;
+            Predicate predicate = user.username.contains(text)
+                    .or(user.username.eq("hello"));
+            users = repository.findAll(predicate);
         } else if ("querydslCustom".equals(method)) {
-//            users = repository.findByUsernameCustom(text);
+            users = repository.findByUsernameCustom(text);
         } else if ("jdbc".equals(method)) {
-//            users = repository.findByUsernameJdbc(text);
+            users = repository.findByUsernameJdbc(text);
         } else {
             users = repository.findAll();
             //log.debug("getBoards().size() : {}", users.get(0).getBoards().size());
         }
         return users;
+    }
+
+    @GetMapping("/users2")
+    Iterable<Board> all2(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
+        Iterable<Board> boards = null;
+        if ("querydsl".equals(method)) {
+            QBoard board = QBoard.board;
+            Predicate predicate = board.boardManager.title.contains(text);
+//            Predicate predicate = board.title.contains(text);
+            boards = boardRepository.findAll(predicate);
+        }
+        return boards;
     }
 
     @PostMapping("/users")

@@ -19,8 +19,4 @@ public class BoardManager {
     @Size(min=2, max=30, message = "제목은 2자이상 30자 이하입니다.")
     private String title;
 
-//    @ManyToOne
-//    @JoinColumn(name = "manager_id", referencedColumnName = "id")
-//    @JsonIgnore
-//    private Board board;
 }
